@@ -5,58 +5,58 @@
   gather_facts: false
   vars:
     custom_addons: "{{ lookup('file', 'repos/{{ git_repo }}.json') | from_json }}"
-    addons_directory: "/opt/odoo-server/extra_addons/"
+    odoo_config: "{{ lookup('file', 'odoo/{{ odoo_conf }}.json') | from_json }}"
 
   tasks:
     - name: Check if the directory exists
       ansible.builtin.stat:
-        path: "{{ addons_directory }}{{ custom_addons.pool_directory }}{{custom_addons.origin.repo_name}}"
+        path: "{{ odoo_config.addons_directory }}{{ custom_addons.pool_directory }}{{custom_addons.origin.repo_name}}"
       register: dir_to_check
 
-    - name: Set Addons Dir
+    - name: Set Addons Dir if exists
       set_fact:
-        addon_dir: "{{ item.stat.path }}"
-      when: item.stat.isdir is defined and item.stat.isdir
-      with_items: "{{ dir_to_check.results }}"
+        addon_dir: "{{ dir_to_check.stat.path }}"
+      when: dir_to_check.stat.isdir is defined
 
-    - name: Stop Odoo service
-      ansible.builtin.service:
-        name: odoo
-        state: stopped
-      when: addon_dir is defined
+    - name: Set Addons Dir if not exists
+      set_fact:
+        addon_dir: "{{ odoo_config.addons_directory }}{{ custom_addons.pool_directory }}{{custom_addons.origin.repo_name}}"
+      when: dir_to_check.stat.isdir is not defined
 
-    - name: pull from git
+    - name: Create Addon pool_directory
+      shell: mkdir -p "{{ odoo_config.addons_directory }}{{ custom_addons.pool_directory }}"
+      notify: 
+          - Clone Repo
+          - Update Odoo Config
+      when: dir_to_check.stat.isdir is not defined
+
+    - name: Update Repo
       git:
         repo: "{{ custom_addons.origin.url }}"
         dest: "{{ addon_dir }}"
         update: yes
         version: "{{ branch }}"
+      notify: Restart Odoo
+      when: addon_dir is defined and dir_to_check.stat.isdir is defined
+
+  handlers:
+    - name: Clone Repo
+      git:
+        repo: "{{ custom_addons.origin.url }}"
+        dest: "{{ addon_dir }}"
+        clone: yes
+        version: "{{ branch }}"
       when: addon_dir is defined
 
-    - name: Get Addons if is a Repo
-      shell: ls -d */
-      args:
-        chdir: "{{ addon_dir }}"
-      register: addons
-      when: (custom_addons.origin.single is not defined or custom_addons.origin.single == "false") and (addon_dir is defined)
-    
-    - block:
-
-        - name: UPDATE ADDONS FROM REPO
-          shell: odoo -d {{ db_name }} -c /etc/odoo/odoo.conf -u {{ item [:-1] }} --stop-after-init
-          with_items: "{{ addons.stdout_lines }}"
-          when: custom_addons.origin.single is not defined or custom_addons.origin.single == "false"
-
-        - name: UPDATE SINGLE ADDON
-          shell: odoo -d {{ db_name }} -c /etc/odoo/odoo.conf -u {{ custom_addons.origin.repo_name }} --stop-after-init
-          when: custom_addons.origin.single is defined and custom_addons.origin.single == "true"
-
-      become: true
-      become_user: odoo
+    - name: Update Odoo Config
+      ansible.builtin.lineinfile:
+        path: "{{ odoo_config.config }}"
+        regexp: '^ADDLINE '
+        insertbefore: '^#ADDLINE'
+        line: ',{{addon_dir}}'
+      notify: Restart Odoo
       when: addon_dir is defined
 
-    - name: Start odoo
-      ansible.builtin.service:
-        name: odoo
-        state: started
-      when: addon_dir is defined
+    - name: Restart Odoo
+      ansible.builtin.include_tasks:
+        file: tasks/restart-odoo.yml

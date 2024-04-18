@@ -1,0 +1,33 @@
+---
+- name: Stop Odoo service
+  ansible.builtin.service:
+    name: odoo
+    state: stopped
+  when: addon_dir is defined
+
+- name: Get Addons if is a Repo
+  shell: ls -d */
+  args:
+    chdir: "{{ addon_dir }}"
+  register: addons
+  when: (custom_addons.origin.single is not defined or custom_addons.origin.single == "false") and (addon_dir is defined adn dir_to_check.stat.isdir is defined)
+
+- block:
+    - name: UPDATE ADDONS FROM REPO
+      shell: odoo -d {{ db_name }} -c /etc/odoo/odoo.conf -u {{ item [:-1] }} --stop-after-init
+      with_items: "{{ addons.stdout_lines }}"
+      when: custom_addons.origin.single is not defined or custom_addons.origin.single == "false"
+
+    - name: UPDATE SINGLE ADDON
+      shell: odoo -d {{ db_name }} -c /etc/odoo/odoo.conf -u {{ custom_addons.origin.repo_name }} --stop-after-init
+      when: custom_addons.origin.single is defined and custom_addons.origin.single == "true"
+
+  become: true
+  become_user: odoo
+  when: addon_dir is defined and dir_to_check.stat.isdir is defined
+
+- name: Start odoo
+  ansible.builtin.service:
+    name: odoo
+    state: started
+  when: addon_dir is defined

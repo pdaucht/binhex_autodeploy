@@ -1,9 +1,8 @@
 {
-    "pool_directory":"binhex/single/",
-    "db_name": "binhex",
+    "pool_directory":"temp/casa/",
     "origin":{
-                "url" : "git@github.com:BinhexTeam/portal_digest_project.git",
-                "repo_name" : "portal_digest_project",
+                "url" : "git@github.com:pdaucht/binhex_autodeploy.git",
+                "repo_name" : "binhex_autodeploy",
                 "single" : "true"
             }
         
