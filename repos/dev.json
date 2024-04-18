@@ -1,0 +1,10 @@
+{
+    "pool_directory":"binhex/single/",
+    "db_name": "binhex",
+    "origin":{
+                "url" : "git@github.com:BinhexTeam/portal_digest_project.git",
+                "repo_name" : "portal_digest_project",
+                "single" : "true"
+            }
+        
+}

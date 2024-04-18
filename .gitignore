@@ -1,0 +1,13 @@
+__pycache__
+
+.env
+.vscode
+
+inventory
+config
+
+ssh-config/*.json
+playbooks/json-temp/*.json
+
+*.local
+*.local.*
