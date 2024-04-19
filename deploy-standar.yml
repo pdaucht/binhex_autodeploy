@@ -53,10 +53,9 @@
         path: "{{ odoo_config.config }}"
         regexp: '^ADDLINE '
         insertbefore: '^#ADDLINE'
-        line: ',{{addon_dir}}'
+        line: '         ,{{addon_dir}}'
       notify: Restart Odoo
       when: addon_dir is defined
 
     - name: Restart Odoo
-      ansible.builtin.include_tasks:
-        file: tasks/restart-odoo.yml
+      service: name=odoo state=reloaded
