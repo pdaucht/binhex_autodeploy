@@ -95,4 +95,14 @@ config ------------- Ruta con el nombre del archivo de la configuración de nues
 }
 
 NOTA:
-Para que el repo pueda ser agregado a la configuracion de nuestro odoo una vez clonado es necesario
+Para que el repo pueda ser agregado a la configuracion de nuestro odoo una vez clonado, es necesario agregar este TAG (#ADDLINE) debajo de la 
+última linea de declaración de addons. 
+
+*Es muy importante que la declaración de "adoons_path" sea como se muestra en el siguiente ejemplo.
+
+EJEMPLO
+addons_path = /opt/odoo-server/addons
+	      ,/opt/odoo-server/extra_addons/oca/pos
+         ,/opt/odoo-server/extra_addons/oca/helpdesk
+         ,/opt/odoo-server/extra_addons/oca/l10n-portugal
+         #ADDLINE
