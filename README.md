@@ -67,7 +67,7 @@ nodename ---- atributo solo utlizado para agrupar en la configuarión del SSH lo
       }
     ]
 ]
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#######################################################################
 ARCHIVO: "repos.json"
 pool_directory --- Directorio en el que queremos desplegar el repo.
 url -------------- Dirección ULR o SSH para clonar o actualizar repo
@@ -80,7 +80,7 @@ repo_name -------- Nombre del repo (git@github.com:pdaucht/[binhex_autodeploy].g
             }
 }
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#######################################################################
 ARCHIVO: "odoo.json"
 
 Este archivo es de vital importancia, pues con estos datos son utilizados para 
