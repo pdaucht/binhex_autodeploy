@@ -3,6 +3,8 @@ __pycache__
 .env
 .vscode
 
+odoo/*.json
+repos/*.json
 
 *.local
 *.local.*
