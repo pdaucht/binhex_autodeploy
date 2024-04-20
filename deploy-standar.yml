@@ -58,4 +58,4 @@
       when: addon_dir is defined
 
     - name: Restart Odoo
-      service: name=odoo state=reloaded
+      service: name=odoo state=restarted
