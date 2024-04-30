@@ -30,13 +30,11 @@
           - Update Odoo Config
       when: dir_to_check.stat.isdir is not defined
 
-    - name: Update Repo
-      git:
-        repo: "{{ custom_addons.origin.url }}"
-        dest: "{{ addon_dir }}"
-        update: yes
-        version: "{{ branch }}"
-      notify: Restart Odoo
+    - name: Performance a git Stash
+      shell: git stash
+      args:
+        chdir: "{{ addon_dir }}"
+      notify: Update Repo
       when: addon_dir is defined and dir_to_check.stat.isdir is defined
 
   handlers:
@@ -56,6 +54,15 @@
         line: '         ,{{addon_dir}}'
       notify: Restart Odoo
       when: addon_dir is defined
+
+    - name: Update Repo
+      git:
+        repo: "{{ custom_addons.origin.url }}"
+        dest: "{{ addon_dir }}"
+        update: yes
+        version: "{{ branch }}"
+      notify: Restart Odoo
+      when: addon_dir is defined and dir_to_check.stat.isdir is defined
 
     - name: Restart Odoo
       service: name=odoo state=restarted

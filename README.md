@@ -30,7 +30,6 @@ ansible-playbook --extra-vars '{"host":"NOMBRE_INTANCIA-RAMA","git_repo":"REPO_F
 - branch -- Rama del git a (clonar|actualizar)
 - odoo_conf -- nombre del archivo de configuración del odoo sin ".json"
 
-
 ## DESCRIPCIÓN DE LOS ARCHIVOS JSON
 ### ARCHIVO: "nodes.json"
 #### Este archivo se utiliza para autogenerar la configuración del ssh y el inventario del Ansible
