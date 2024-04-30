@@ -1,10 +1,11 @@
-################################################################
-CONFIGURAR GITHUB
-################################################################
-Settings/Webhook
-Click on [Add webhook]
-PayLoad URL: https://[YOUR-JENKINS-URL]/github-webhook/
-Secret: token_de_git
+# BINHEX AUTODEPLOY
+
+
+## CONFIGURAR GITHUB
+1. Settings/Webhook
+2. Click on [Add webhook]
+3. PayLoad URL: https://[YOUR-JENKINS-URL]/github-webhook/
+4. Secret: token_de_git
 
 ################################################################
 CONFIGURAR JENKINS
@@ -22,7 +23,7 @@ CONFIGURAR JENKINS
 10- En Comando pegar las siguentes líneas
 
 export LC_ALL=C.UTF-8
-ansible-playbook --extra-vars '{"host":"NOMBRE_INTANCIA-RAMA","git_repo":"REPO_FILE","branch":"BRANCH","db_name":"ODOO_DB","odoo_conf":"ODOO_FILE"}'  -i ~/binhex_autodeploy/ansible-inventory ~/binhex_autodeploy/deploy-standar.yml -u root
+ansible-playbook --extra-vars '{"host":"NOMBRE_INTANCIA-RAMA","git_repo":"REPO_FILE","branch":"BRANCH","odoo_conf":"ODOO_FILE"}'  -i ~/binhex_autodeploy/ansible-inventory ~/binhex_autodeploy/deploy-standar.yml -u root
 
 ###############################################################
 PARÁMETROS DEL ANSIBLE
@@ -30,7 +31,6 @@ PARÁMETROS DEL ANSIBLE
 @host -- Valor del atriburo "name" en el nodes.json que identifica a (instancia|contenedor|servidor)
 @git_repo -- nombre del archivo de configuración del repo git sin ".json"
 @branch -- Rama del git a (clonar|actualizar)
-@db_name -- nombre de la base de datos del oodo (Este parámetro se utiliza para actualizar los addons de un repo)
 @odoo_conf -- nombre del archivo de configuración del odoo sin ".json"
 
 
