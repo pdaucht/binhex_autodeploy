@@ -1,0 +1,9 @@
+{
+    "pool_directory":"samuel/",
+    "origin":{
+                "url" : "https://github.com/pdaucht/binhex_autodeploy.git",
+                "repo_name" : "binhex_autodeploy",
+                "single" : "true"
+            }
+        
+}

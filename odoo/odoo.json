@@ -1,0 +1,4 @@
+{
+    "addons_directory" : "/opt/odoo-server/extra_addons/",
+    "config" : "/etc/odoo/odoo.conf"
+}
