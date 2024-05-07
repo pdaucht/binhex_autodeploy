@@ -104,5 +104,5 @@ addons_path = /opt/odoo-server/addons
 	      ,/opt/odoo-server/extra_addons/oca/pos
          ,/opt/odoo-server/extra_addons/oca/helpdesk
          ,/opt/odoo-server/extra_addons/oca/l10n-portugal
-         #ADDLINE
+#ADDLINE
 ```
