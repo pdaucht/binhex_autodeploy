@@ -49,8 +49,8 @@
     - name: Update Odoo Config
       ansible.builtin.lineinfile:
         path: "{{ odoo_config.config }}"
-        regexp: '^			ADDLINE'
-        insertbefore: '^			##ADDLINE'
+        regexp: '^ADDLINE'
+        insertbefore: '^			#ADDLINE'
         line: '         ,{{addon_dir}}'
       notify: Restart Odoo
       when: addon_dir is defined
