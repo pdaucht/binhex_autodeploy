@@ -3,7 +3,7 @@
     "origin":{
                 "url" : "git@github.com:BinhexTeam/addon_test.git",
                 "repo_name" : "addon_test",
-                "single" : "true"
+                "single" : "false"
             }
         
 }
