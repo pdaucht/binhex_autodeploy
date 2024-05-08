@@ -50,7 +50,7 @@
       ansible.builtin.lineinfile:
         path: "{{ odoo_config.config }}"
         regexp: '^ADDLINE'
-        insertbefore: '^			#ADDLINE'
+        insertbefore: '^#ADDLINE'
         line: '         ,{{addon_dir}}'
       notify: Restart Odoo
       when: addon_dir is defined
