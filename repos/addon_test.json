@@ -1,5 +1,5 @@
 {
-    "pool_directory":"binhex/single/",
+    "pool_directory":"binhex/",
     "origin":{
                 "url" : "git@github.com:BinhexTeam/addon_test.git",
                 "repo_name" : "addon_test",
