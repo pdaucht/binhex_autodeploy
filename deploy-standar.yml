@@ -12,13 +12,13 @@
       ansible.builtin.stat:
         path: "{{ odoo_config.addons_directory }}{{ custom_addons.pool_directory }}{{custom_addons.origin.repo_name}}"
       register: dir_to_check
-      when: custom_addons.origin.single is defined and custom_addons.origin.single = "false"
+      when: custom_addons.origin.single is defined and custom_addons.origin.single == "false"
 
     - name: Check if the directory for a Single Addons
       ansible.builtin.stat:
         path: "{{ odoo_config.addons_directory }}{{ custom_addons.pool_directory }}"
       register: dir_to_check
-      when: custom_addons.origin.single is defined and custom_addons.origin.single = "true"
+      when: custom_addons.origin.single is defined and custom_addons.origin.single == "true"
 
     - name: Set Addons Dir if exists
       set_fact:
@@ -60,7 +60,7 @@
         insertbefore: '^#ADDLINE'
         line: '         ,{{addon_dir}}'
       notify: Restart Odoo
-      when: addon_dir is defined and custom_addons.origin.single = "false"
+      when: addon_dir is defined and custom_addons.origin.single == "false"
 
     - name: Update Repo
       git:
